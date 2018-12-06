@@ -20,6 +20,8 @@ namespace single_file_exe
 
                 using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
                 {
+                    if (stream == null)
+                        return null;
                     Byte[] assemblyData = new Byte[stream.Length];
 
                     stream.Read(assemblyData, 0, assemblyData.Length);

@@ -16,11 +16,18 @@
         Title="MainWindow" Height="350" Width="525">
     <Grid>
         <materialDesign:DialogHost Name="DialogHost">
+            <materialDesign:DialogHost.DialogContent>
+                <StackPanel Margin="20">
+                    <TextBlock Text="Some Dialog Content" />
+                    <Button Content="Close" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" />
+                </StackPanel>
+            </materialDesign:DialogHost.DialogContent>
             <StackPanel VerticalAlignment="Center">
                 <materialDesign:Card Padding="32" Margin="30,0,30,0">
                     <TextBlock FontSize="20" ><Run Text="Hello World！"/></TextBlock>
                 </materialDesign:Card>
-                <Button Content="Button" Margin="30,60,30,0" VerticalAlignment="Top" Height="65"/>
+                <Button Content="Button" Margin="30,60,30,0" VerticalAlignment="Top" Height="65"
+                        Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"/>
             </StackPanel>
         </materialDesign:DialogHost>
     </Grid>
