@@ -12,11 +12,17 @@ namespace single_file_exe
         [System.STAThreadAttribute()]
         public static void Main()
         {
+            var loadedAssemblies = new Dictionary<string, Assembly>();
             AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
             {
                 String resourceName = "single_file_exe.Res." +
-
                 new AssemblyName(args.Name).Name + ".dll";
+
+                //Must return the EXACT same assembly, do not reload from a new stream
+                if (loadedAssemblies.TryGetValue(resourceName, out Assembly loadedAssembly))
+                {
+                    return loadedAssembly;
+                }
 
                 using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
                 {
@@ -26,7 +32,9 @@ namespace single_file_exe
 
                     stream.Read(assemblyData, 0, assemblyData.Length);
 
-                    return Assembly.Load(assemblyData);
+                    var assembly =  Assembly.Load(assemblyData);
+                    loadedAssemblies[resourceName] = assembly;
+                    return assembly;
                 }
             };
             App app = new App();
